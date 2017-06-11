@@ -11,7 +11,7 @@ This setup spools up the following containers
 The guide will walk you thru the following things
 
 * [Installation](#installation)
-* [Now, how to use `bin/cake` or `mysql`](#now-how-to-use-bin--cake-or-mysql)
+* [Now, how to use `bin/cake` or `mysql`](#now-how-to-run-bincake-and-mysql)
 * [OK, so what did the defaults set up?](#ok-so-what-did-the-defaults-set-up)
 
 ## Installation
