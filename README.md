@@ -13,6 +13,7 @@ The guide will walk you thru the following things
 * [Installation](#installation)
 * [Now, how to use `bin/cake` or `mysql`](#now-how-to-run-bincake-and-mysql)
 * [OK, so what did the defaults set up?](#ok-so-what-did-the-defaults-set-up)
+* [Installing Docker on my Host](#installing-docker-on-my-host)
 
 ## Installation
 
@@ -33,14 +34,14 @@ Here is an example of what my typical setup looks like
 			php-fpm
 				Dockerfile
 				php-ini-overrides.ini
-```				
+```
 
 Then, **Find/Replace** `myapp` with the name of your app.
 
 > **WHY?** by default the files are set to name the containers based on your app prefix. By default this is `myapp`.
 > A find/replace on `myapp` is safe and will allow you to customize the names of the containers
 > 
-> e.g. myapp-mysql, myapp-php-fpm, myapp-mysql, myapp-mailhog
+> e.g. myapp-mysql, myapp-php-fpm, myapp-nginx, myapp-mailhog
 
 **Build and Run your Containers**
 
@@ -80,11 +81,13 @@ Your `app/config.php` file should be set to the following (it connects through t
     ],
 ```
 
+To change these defaults edit the `docker-compose.yml` file under `myapp-mysql`'s `environment` section.
+
 ## Now, how to run `bin/cake` and `mysql`
 
 Now that you're running stuff in containers you need to access the code a little differently
 
-You can run things like `composer` on your host, but if you want to run `bin/cake` or use MySQL from commandline you just need to connect into the container first
+You can run things like `composer` on your host, but if you want to run `bin/cake` or use MySQL from commandline you just need to connect into the appropriate container first
 
 **access your php server**
 
@@ -157,3 +160,16 @@ You can access the **Web GUI** (using the defaults) for mailhog at
 To send mail over the transport layer just set your `Email::transport('mailhog')`
 
 
+## Installing Docker on my Host
+
+If you've never worked with Docker before they have some super easy ways to install the needed runtimes on almost any host
+
+* Mac, Windows, Ubuntu, Centos, Debian, Fedora, Azure, AWS
+
+You can download the (free) community edition here [https://www.docker.com/community-edition#/download]()
+
+**Cloud Hosting Docker Applications** 
+
+[DigitalOcean](https://m.do.co/c/640e75c994b4) has been super reliable for us as a host and has a one-click deploy of a  docker host.
+
+Just click `CREATE DROPLET` and then under `Choose an Image` pick the `One-click Apps` (tab) and choose `Docker X.Y.Z on X.Y` and you're good to go; DO will spool up a droplet with `docker` and `docker-compose` already installed and ready to run.
