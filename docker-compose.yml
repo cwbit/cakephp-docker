@@ -21,9 +21,9 @@ myapp-mysql:
     - MYSQL_USER=myapp
     - MYSQL_PASSWORD=myapp
 
-myapp-webserver:
+myapp-nginx:
   image: phpdockerio/nginx:latest
-  container_name: myapp-webserver
+  container_name: myapp-nginx
   volumes:
       - ../cakephp:/var/www/myapp
       - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
