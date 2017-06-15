@@ -10,10 +10,55 @@ This setup spools up the following containers
 
 The guide will walk you thru the following things
 
+* [Quick Start](#quick-start)
 * [Installation](#installation)
-* [Now, how to use `bin/cake` or `mysql`](#now-how-to-run-bincake-and-mysql)
+* [Now, how to use `bin/cake`, `mysql` and other commandline utils](#now-how-to-run-bincake-and-mysql)
 * [OK, so what did the defaults set up?](#ok-so-what-did-the-defaults-set-up)
 * [Installing Docker on my Host](#installing-docker-on-my-host)
+
+## Quick Start
+
+For those looking to get started in `60 sec` using just the defaults (which are fine for dev) do the following:
+
+1. Download the ZIP file for this repo
+1. Create the following folder structure 
+ * Put your CakePHP app inside the `cakephp` folder
+ * and the files from this repo into the `docker` folder
+
+	```
+	    somefolder
+	        docker
+	            .. put the zip files in here ..
+	        cakephp
+	            .. put your cake app in here ..
+	```
+3. From commandline, `cd` into the `docker` directory and run `docker-compose up`
+
+	```bash
+	$ cd /path/to/somefolder/docker
+	$ docker-compose up
+	
+	Starting myapp-mysql
+	Starting myapp-mailhog
+	Starting myapp-php-fpm
+	Starting myapp-nginx
+	Attaching to myapp-mailhog, myapp-mysql, myapp-php-fpm, myapp-nginx
+	myapp-mailhog    | 2017/06/15 16:34:26 Using in-memory storage
+	...
+	myapp-mysql      | 2017-06-15T16:34:27.401334Z 0 [Note] mysqld (mysqld 5.7.17) starting as process 1 ...
+	...
+	myapp-mysql      | 2017-06-15T16:34:27.408857Z 0 [Warning] Setting lower_case_table_names=2 because file system for /var/lib/mysql/ is case insensitive
+	...
+	myapp-mysql      | 2017-06-15T16:34:28.332626Z 0 [Note] mysqld: ready for connections.
+	myapp-mysql      | Version: '5.7.17'  socket: '/var/run/mysqld/mysqld.sock'  port: 3306  MySQL Community Server (GPL)
+	myapp-mailhog    | [APIv1] KEEPALIVE /api/v1/events
+	... you'll probably see more crap spit out here ...
+	```
+5. That's it! Go to `localhost:8180` and your app will be live.
+
+All these defaults can be completely overridden. Start with the [Installation](#installation) section to get a feel for what's going on, and then tweak the defaults to suit your individual project needs.
+
+
 
 ## Installation
 
