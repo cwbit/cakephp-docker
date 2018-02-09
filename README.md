@@ -218,3 +218,13 @@ You can download the (free) community edition here [https://www.docker.com/commu
 [DigitalOcean](https://m.do.co/c/640e75c994b4) has been super reliable for us as a host and has a one-click deploy of a  docker host.
 
 Just click `CREATE DROPLET` and then under `Choose an Image` pick the `One-click Apps` (tab) and choose `Docker X.Y.Z on X.Y` and you're good to go; DO will spool up a droplet with `docker` and `docker-compose` already installed and ready to run.
+
+## Troubleshooting
+
+**nginx open logs/access.log failed no such file or directory**
+
+submitted by @jeroenvdv
+
+`myapp-nginx | nginx: [emerg] open() "/var/www/myapp/logs/access.log" failed (2: No such file or directory)`
+
+This is caused by not installing CakePHP completely and can be fixed by creating the logs folder in your `myapp/cakephp` folder.
