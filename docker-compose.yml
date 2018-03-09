@@ -25,8 +25,8 @@ myapp-nginx:
   image: phpdockerio/nginx:latest
   container_name: myapp-nginx
   volumes:
-      - ../cakephp:/var/www/myapp
-      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+    - ../cakephp:/var/www/myapp
+    - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
   ports:
    - "8180:80"
   links:
@@ -41,4 +41,17 @@ myapp-php-fpm:
     - ./php-fpm/php-ini-overrides.ini:/etc/php/7.1/fpm/conf.d/99-overrides.ini
   links:
     - myapp-mailhog
+    - myapp-mysql
+
+myapp-phpmyadmin:
+  image: phpmyadmin/phpmyadmin
+  container_name: myapp-phpmyadmin
+  ports:
+   - "8181:80"
+  environment:
+    - PMA_ARBITRARY=1
+    - PMA_HOST=myapp-mysql
+    - PMA_USER=myapp
+    - PMA_PASSWORD=myapp
+  links:
     - myapp-mysql
