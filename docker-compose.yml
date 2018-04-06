@@ -13,6 +13,7 @@ myapp-mysql:
   container_name: myapp-mysql
   volumes:
       - ../mysql:/var/lib/mysql
+      - ./mysql/my.cnf:/etc/mysql/my.cnf
   ports:
     - "8106:3306"
   environment:

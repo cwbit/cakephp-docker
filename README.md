@@ -32,6 +32,23 @@ For those looking to get started in `60 sec` using just the defaults (which are 
 	        cakephp
 	            .. put your cake app in here ..
 	```
+	
+	If you want to do that all from commandline...
+	
+	```bash
+    cd ~/your/local/DEV/folder
+    mkdir myapp
+    cd myapp
+    mkdir cakephp
+	```
+	
+	And then to simultaneously download the latest master file, unpack it, and stuff it into a docker folder, run this...
+	
+	```bash
+    curl -Lo cakephp-docker.zip https://github.com/cwbit/cakephp-docker/archive/master.zip && \
+    unzip cakephp-docker.zip && \
+    mv cakephp-docker-master docker
+	```	
 3. From commandline, `cd` into the `docker` directory and run `docker-compose up`
 
 	```bash
@@ -74,6 +91,8 @@ Here is an example of what my typical setup looks like
 			..
 		docker
 			docker-compose.yml
+			mysql
+				my.cnf
 			nginx
 				nginx.conf
 			php-fpm
@@ -109,6 +128,7 @@ username : myapp
 password : myapp
 database : myapp
 ```
+
 You can access your MySQL database (with your favorite GUI app) on 
 
 `localhost:8106`
@@ -157,6 +177,7 @@ There are 4 containers that I use all the time that will be spooled up automatic
 
 First we're creating an nginx server. The configuration is set based on the CakePHP suggestions for nginx and `myapp-nginx` will handle all the incoming requests from the client and forward them to the `myapp-php-fpm` server which is what actually runs your PHP code.
 
+You can configure the **nginx server** by editing the `/nginx/nginx.conf` file
 
 ### `myapp-php-fpm` - the PHP processor
 
@@ -173,11 +194,17 @@ It also includes some php ini overrides (see `php-fpm\php-ini-overrides.ini`)
 
 This container will (by default) look for your web app code in `../cakephp/` (relative to the `docker-compose` file).
 
+You can configure what **PHP extensions** are loaded by editing `/php-fpm/Dockerfile`
+
+You can configure **PHP overrides** by editing `/php-fpm/php-ini-overrides.ini`
+
 ### `myapp-mysql` - the database server
 
-The first time you run the docker containers it will create a folder in your root structure called `mysql` and this is where it will store all your database data.
+The first time you run the docker containers it will create a folder in your root structure called `mysql` (at the same level as your `docker` folder) and this is where it will store all your database data.
 
-Since the data is stored on your host device you can bring the mysql container up and down or completely destroy and rebuild it without ever actually touching your data - it is "safely" stored on the host
+Since the data is stored on your host device you can bring the mysql container up and down or completely destroy and rebuild it without ever actually touching your data - it is "safely" stored on the host.
+
+You can configure **MySQL overrides** by editing `/mysql/my.cnf`
 
 ### `myapp-mailhog` - the smtp server
 
