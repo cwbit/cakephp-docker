@@ -90,6 +90,8 @@ Here is an example of what my typical setup looks like
 			config
 			..
 		docker
+			.env
+			.env.sample
 			docker-compose.yml
 			mysql
 				my.cnf
