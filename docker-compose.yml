@@ -17,10 +17,10 @@ myapp-mysql:
   ports:
     - "8106:3306"
   environment:
-    - MYSQL_ROOT_PASSWORD=root
-    - MYSQL_DATABASE=myapp
-    - MYSQL_USER=myapp
-    - MYSQL_PASSWORD=myapp
+    - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    - MYSQL_DATABASE=${MYSQL_DATABASE}
+    - MYSQL_USER=${MYSQL_USER}
+    - MYSQL_PASSWORD=${MYSQL_PASSWORD}
 
 myapp-nginx:
   image: phpdockerio/nginx:latest

@@ -100,7 +100,23 @@ Here is an example of what my typical setup looks like
 				php-ini-overrides.ini
 ```
 
-Then, **Find/Replace** `myapp` with the name of your app.
+Next, **Update the Environment File**
+
+Copy or Rename `docker/.env.sample` to `docker/.env`.
+This is an environment file that your Docker Compose setup will look for automatically which gives us a great, simple way to store things like your mysql database credentials outside of the repo.
+
+By default the file will contain the following
+
+```
+MYSQL_ROOT_PASSWORD=root
+MYSQL_DATABASE=myapp
+MYSQL_USER=myapp
+MYSQL_PASSWORD=myapp
+```
+
+Docker Compose will automatically replace things like `${MYSQL_USER}` in the `docker-compose.yml` file with whatever corresponding variables it finds defined in `.env`
+
+Lastly, **Find/Replace** `myapp` with the name of your app.
 
 > **WHY?** by default the files are set to name the containers based on your app prefix. By default this is `myapp`.
 > A find/replace on `myapp` is safe and will allow you to customize the names of the containers
@@ -118,9 +134,13 @@ That's it. You can now access your CakePHP app at
 
 `localhost:8180`
 
+> **tip**: start docker-compose with `-d` to run (or re-run changed containers) in the background.
+> 
+> `docker-compose up -d`
+
 **Connecting to your database**
 
-Also by default the first time you run the app it will create a `MySQL` database with the following credentials
+Also by default the first time you run the app it will create a `MySQL` database with the credentials you specified in your `.env` file (see above)
 
 ``` yaml
 host : myapp-mysql
@@ -146,7 +166,7 @@ Your `app/config.php` file should be set to the following (it connects through t
     ],
 ```
 
-To change these defaults edit the `docker-compose.yml` file under `myapp-mysql`'s `environment` section.
+To change these defaults edit the variables in the `docker/.env` file or tweak the `docker-compose.yml` file under `myapp-mysql`'s `environment` section.
 
 ## Now, how to run `bin/cake` and `mysql`
 
