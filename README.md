@@ -54,7 +54,8 @@ For those looking to get started in `60 sec` using just the defaults (which are 
     cp docker/.env.sample docker/.env
     rm cakephp-docker.zip
 	```
-3. From commandline, `cd` into the `docker` directory and run `docker-compose up`
+3. Move your cakephp app into the `cakephp` folder or if you're creating one from scratch skip to the next step
+4. From commandline, `cd` into the `docker` directory and run `docker-compose up`
 
 	```bash
 	$ cd /path/to/somefolder/docker
@@ -76,7 +77,8 @@ For those looking to get started in `60 sec` using just the defaults (which are 
 	myapp-mailhog    | [APIv1] KEEPALIVE /api/v1/events
 	... you'll probably see more crap spit out here ...
 	```
-5. That's it! Go to `localhost:8180` and your app will be live.
+5. If you're creating a new cakephp app, follow the steps in [creating a CakePHP app](#creating-a-CakePHP-app)
+6. That's it! Go to `localhost:8180` and your app will be live.
 
 All these defaults can be completely overridden. Start with the [Installation](#installation) section to get a feel for what's going on, and then tweak the defaults to suit your individual project needs.
 
