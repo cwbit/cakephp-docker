@@ -16,8 +16,8 @@ The guide will walk you thru the following things
 * [OK, so what did the defaults set up?](#ok-so-what-did-the-defaults-set-up)
 * [Installing Docker on my Host](#installing-docker-on-my-host)
 * [Troubleshooting](#troubleshooting)
- * [nginx open logs/access.log failed no such file or directory](#nginx-open-logsaccess.log-failed-no-such-file-or-directory)
- * [creating a CakePHP app](#creating-a-CakePHP-app)
+  * [nginx open logs/access.log failed no such file or directory](#nginx-open-logsaccesslog-failed-no-such-file-or-directory)
+  * [creating a CakePHP app](#creating-a-CakePHP-app)
 
 ## Quick Start
 
