@@ -3,26 +3,29 @@ A Docker Compose setup for containerized CakePHP Applications
 
 This setup spools up the following containers
 
-* **mysql** (5.7)
+* **mysql** (8.0)
 * **nginx**
-* **php-fpm** (php 7.1)
+* **php-fpm** (php 7.4)
 * **mailhog** (smtp server for testing)
 
 The guide will walk you thru the following things
 
 * [Quick Start](#quick-start)
 * [Installation](#installation)
-* [Now, how to use `bin/cake`, `mysql` and other commandline utils](#now-how-to-run-bincake-and-mysql)
+* [How to use `bin/cake`, `mysql` and other commandline utils now that you're using containers](#now-how-to-run-bincake-and-mysql)
 * [OK, so what did the defaults set up?](#ok-so-what-did-the-defaults-set-up)
 * [Installing Docker on my Host](#installing-docker-on-my-host)
+* [Troubleshooting](#troubleshooting)
+ * [nginx open logs/access.log failed no such file or directory](#nginx-open-logsaccess.log-failed-no-such-file-or-directory)
+ * [creating a CakePHP app](#creating-a-CakePHP-app)
 
 ## Quick Start
 
 For those looking to get started in `60 sec` using just the defaults (which are fine for dev) do the following:
 
 1. Download the ZIP file for this repo
-1. Create the following folder structure 
- * Put your CakePHP app inside the `cakephp` folder
+1. Create the following folder structure
+ * Put your CakePHP app inside the `cakephp` folder (assumes you already have one; if not, look here)
  * and the files from this repo into the `docker` folder
 
 	```
@@ -32,29 +35,29 @@ For those looking to get started in `60 sec` using just the defaults (which are 
 	        cakephp
 	            .. put your cake app in here ..
 	```
-	
+
 	If you want to do that all from commandline...
-	
+
 	```bash
-    cd ~/your/local/DEV/folder
+    cd ~/path/to/your/local/dev/folder
     mkdir myapp
-    cd myapp
-    mkdir cakephp
+    mkdir myapp/cakephp
 	```
-	
-	And then to simultaneously download the latest master file, unpack it, and stuff it into a docker folder, run this...
-	
+
+	And then to simultaneously download the latest master file, unpack it, stuff it into a folder named docker, and clone the `.env` file ... run this...
+
 	```bash
     curl -Lo cakephp-docker.zip https://github.com/cwbit/cakephp-docker/archive/master.zip && \
     unzip cakephp-docker.zip && \
-    mv cakephp-docker-master docker
-	```	
+    mv cakephp-docker-master docker && \
+    cp docker/.env.sample docker/.env
+	```
 3. From commandline, `cd` into the `docker` directory and run `docker-compose up`
 
 	```bash
 	$ cd /path/to/somefolder/docker
 	$ docker-compose up
-	
+
 	Starting myapp-mysql
 	Starting myapp-mailhog
 	Starting myapp-php-fpm
@@ -122,22 +125,22 @@ Lastly, **Find/Replace** `myapp` with the name of your app.
 
 > **WHY?** by default the files are set to name the containers based on your app prefix. By default this is `myapp`.
 > A find/replace on `myapp` is safe and will allow you to customize the names of the containers
-> 
+>
 > e.g. myapp-mysql, myapp-php-fpm, myapp-nginx, myapp-mailhog
 
 **Build and Run your Containers**
 
 ```bash
 cd /path/to/your/app/docker
-docker-compose -up
+docker-compose up
 ```
 
-That's it. You can now access your CakePHP app at 
+That's it. You can now access your CakePHP app at
 
 `localhost:8180`
 
 > **tip**: start docker-compose with `-d` to run (or re-run changed containers) in the background.
-> 
+>
 > `docker-compose up -d`
 
 **Connecting to your database**
@@ -151,11 +154,11 @@ password : myapp
 database : myapp
 ```
 
-You can access your MySQL database (with your favorite GUI app) on 
+You can access your MySQL database (with your favorite GUI app) on
 
 `localhost:8106`
 
-Your `app/config.php` file should be set to the following (it connects through the docker link)
+Your `cakephp/config/app_local.php` file should be set to the following (it connects through the docker link)
 
 ```php
   'Datasources' => [
@@ -207,10 +210,10 @@ This container runs `php` (and it's extensions) needed for your CakePHP app
 
 It automatically includes the following extensions
 
-* `php7.1-intl` (required for CakePHP 3.x +)
-* `php7.1-mbstring`
-* `php7.1-sqlite3` (required for DebugKit)
-* `php7.1-mysql`
+* `php7.4-intl` (required for CakePHP 4.0+)
+* `php7.4-mbstring`
+* `php7.4-sqlite3` (required for DebugKit)
+* `php7.4-mysql`
 
 It also includes some php ini overrides (see `php-fpm\php-ini-overrides.ini`)
 
@@ -232,7 +235,7 @@ You can configure **MySQL overrides** by editing `/mysql/my.cnf`
 
 This is just a built-in mail server you can use to 'send' and intercept mail coming from your application.
 
-Set up your `app/config.php` with the following
+Set up your `cakephp/config/app_local.php` with the following
 
 ```php
     'EmailTransport' => [
@@ -262,7 +265,7 @@ If you've never worked with Docker before they have some super easy ways to inst
 
 You can download the (free) community edition here [https://www.docker.com/community-edition#/download]()
 
-**Cloud Hosting Docker Applications** 
+**Cloud Hosting Docker Applications**
 
 [DigitalOcean](https://m.do.co/c/640e75c994b4) has been super reliable for us as a host and has a one-click deploy of a  docker host.
 
@@ -270,10 +273,29 @@ Just click `CREATE DROPLET` and then under `Choose an Image` pick the `One-click
 
 ## Troubleshooting
 
-**nginx open logs/access.log failed no such file or directory**
+### nginx open logs/access.log failed no such file or directory
 
 submitted by @jeroenvdv
 
 `myapp-nginx | nginx: [emerg] open() "/var/www/myapp/logs/access.log" failed (2: No such file or directory)`
 
 This is caused by not installing CakePHP completely and can be fixed by creating the logs folder in your `myapp/cakephp` folder.
+
+If you are starting fresh and need to install cake using the container you just created then follow the next step, [Creating a CakePHP app](#creating-a-CakePHP-app).
+
+### creating a CakePHP app
+
+Most of the time I set this up without an existing CakePHP app. This will cause the initial `up` command to fail because folders are missing. To solve this run the install command (from the official CakePHP docs) but set the app name to `.` instead of `myapp`.
+
+```bash
+docker exec -it myapp-php-fpm /bin/bash
+```
+> remember to replace `myapp` with whatever you really named the container
+
+and then, inside the container
+```bash
+composer create-project --prefer-dist cakephp/app:~4.0 .
+```
+Next, fix the database connection strings by following the steps in [Connecting to your database](#Connecting-to-your-database) (above).
+
+That's it. You should have lots of happy green checkmarks at `localhost:8180` or whatever you set nginx to respond to.

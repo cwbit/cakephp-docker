@@ -1,45 +1,50 @@
 ###############################################################################
 #                          Generated on phpdocker.io                          #
 ###############################################################################
+version: '3.1'
+services:
+  myapp-mailhog:
+    image: 'mailhog/mailhog:latest'
+    container_name: myapp-mailhog
+    ports:
+      - "8125:8025"
 
-myapp-mailhog:
-  image: phpdockerio/mailhog:latest
-  container_name: myapp-mailhog
-  ports:
-    - "8125:8025"
+  myapp-mysql:
+    image: 'mysql:8.0'
+    container_name: myapp-mysql
+    working_dir: /var/www/myapp
+    volumes:
+        - ../mysql:/var/lib/mysql
+        - ../mysql-files:/var/lib/mysql-files
+        - ../cakephp:/var/www/myapp
+        - ./mysql/my.cnf:/etc/mysql/my.cnf
+    ports:
+      - "8106:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
 
-myapp-mysql:
-  image: mysql:5.7
-  container_name: myapp-mysql
-  volumes:
-      - ../mysql:/var/lib/mysql
-      - ./mysql/my.cnf:/etc/mysql/my.cnf
-  ports:
-    - "8106:3306"
-  environment:
-    - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-    - MYSQL_DATABASE=${MYSQL_DATABASE}
-    - MYSQL_USER=${MYSQL_USER}
-    - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+  myapp-nginx:
+    image: 'nginx:alpine'
+    container_name: myapp-nginx
+    working_dir: /var/www/myapp
+    volumes:
+        - ../cakephp:/var/www/myapp
+        - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+    ports:
+     - "8180:80"
+    links:
+     - myapp-php-fpm
 
-myapp-nginx:
-  image: phpdockerio/nginx:latest
-  container_name: myapp-nginx
-  volumes:
+  myapp-php-fpm:
+    build: ./php-fpm
+    container_name: myapp-php-fpm
+    working_dir: /var/www/myapp
+    volumes:
       - ../cakephp:/var/www/myapp
-      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
-  ports:
-   - "8180:80"
-  links:
-   - myapp-php-fpm
-
-myapp-php-fpm:
-  build: .
-  dockerfile: php-fpm/Dockerfile
-  container_name: myapp-php-fpm
-  volumes:
-    - ../cakephp:/var/www/myapp
-    - ./php-fpm/php-ini-overrides.ini:/etc/php/7.1/fpm/conf.d/99-overrides.ini
-  links:
-    - myapp-mailhog
-    - myapp-mysql
+      - ./php-fpm/php-ini-overrides.ini:/etc/php/7.4/fpm/conf.d/99-overrides.ini
+    links:
+      - myapp-mailhog
+      - myapp-mysql
