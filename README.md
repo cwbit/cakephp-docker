@@ -47,10 +47,12 @@ For those looking to get started in `60 sec` using just the defaults (which are 
 	And then to simultaneously download the latest master file, unpack it, stuff it into a folder named docker, and clone the `.env` file ... run this...
 
 	```bash
+    cd myapp
     curl -Lo cakephp-docker.zip https://github.com/cwbit/cakephp-docker/archive/master.zip && \
     unzip cakephp-docker.zip && \
     mv cakephp-docker-master docker && \
     cp docker/.env.sample docker/.env
+    rm cakephp-docker.zip
 	```
 3. From commandline, `cd` into the `docker` directory and run `docker-compose up`
 
