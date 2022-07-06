@@ -1,0 +1,52 @@
+name: Run PHPStan
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  run-phpstan:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        php-versions: ['7.2']
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Validate composer.json and composer.lock
+      run: composer validate
+
+    - name: Get composer cache directory
+      id: composer-cache
+      run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+    - name: Get date part for cache key
+      id: key-date
+      run: echo "::set-output name=date::$(date +'%Y-%m')"
+
+    - name: Cache composer dependencies
+      uses: actions/cache@v2
+      with:
+        path: ${{ steps.composer-cache.outputs.dir }}
+        key: ${{ runner.os }}-${{ github.ref }}-composer-${{ steps.key-date.outputs.date }}-${{ hashFiles('composer.json') }}
+        restore-keys: |
+          ${{ runner.os }}-${{ github.ref }}-composer-${{ steps.key-date.outputs.date }}-${{ hashFiles('composer.json') }}
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php-versions }}
+        extensions: mbstring, intl
+
+    - name: Install dependencies
+      if: steps.composer-cache.outputs.cache-hit != 'true'
+      run: composer install --prefer-dist --no-progress --no-suggest
+
+    - name: Run PHPStan command
+      run: composer test:types

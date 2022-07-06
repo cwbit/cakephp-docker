@@ -1,0 +1,53 @@
+{
+    "name": "ishanvyas22/asset-mix",
+    "description": "Asset Mix plugin for CakePHP",
+    "type": "cakephp-plugin",
+    "keywords": ["cakephp", "cakephp-plugin", "assets", "laravel-mix", "minifier", "less", "javascript", "sass"],
+    "license": "MIT",
+    "homepage": "https://github.com/ishanvyas22/asset-mix",
+    "authors": [
+        {
+            "name": "Ishan Vyas",
+            "homepage": "https://github.com/ishanvyas22",
+            "role": "Maintainer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/ishanvyas22/asset-mix/issues",
+        "source": "https://github.com/ishanvyas22/asset-mix"
+    },
+    "require": {
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "cakephp/cakephp": "^4.3.0"
+    },
+    "require-dev": {
+        "cakephp/cakephp-codesniffer": "^4.2.0",
+        "phpunit/phpunit": "^8.0",
+        "phpstan/phpstan": "^0.12.32"
+    },
+    "autoload": {
+        "psr-4": {
+            "AssetMix\\": "src/"
+        },
+        "files": ["src/functions.php"]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "AssetMix\\Test\\": "tests/",
+            "TestApp\\": "tests/test_app/src/"
+        }
+    },
+    "scripts": {
+        "check": [
+            "@cs-check",
+            "@test:types",
+            "@test"
+        ],
+        "cs-fix": "vendor/bin/phpcbf --extensions=php ./src ./tests",
+        "cs-check": "vendor/bin/phpcs -p --extensions=php ./src ./tests",
+        "test:types": "phpstan analyse --ansi --memory-limit=-1",
+        "test": "phpunit --colors=always",
+        "test-setup": "cp phpunit.xml.dist phpunit.xml"
+    }
+}

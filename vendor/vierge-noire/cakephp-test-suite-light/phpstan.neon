@@ -1,0 +1,8 @@
+parameters:
+    level: max
+    checkMissingIterableValueType: false
+    bootstrapFiles:
+        - tests/bootstrap.php
+    paths:
+        - src/
+        - tests/TestApp

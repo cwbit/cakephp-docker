@@ -1,0 +1,45 @@
+name: PHPStan
+
+on:
+  push:
+    branches:
+      - '*'
+  pull_request:
+    branches:
+      - '*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version: ['7.4']
+
+    name: PHP ${{ matrix.php-version }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          extensions: mbstring, intl, apcu
+          ini-values: apc.enable_cli = 1
+
+      - name: Update composer
+        run: composer self-update
+
+      - name: Validate composer.json
+        run: composer validate
+
+      - name: Install composer
+        run: composer update --prefer-dist --no-progress --no-suggest --prefer-stable
+
+      - name: Install PHPStan
+        run: composer stan-setup
+
+      - name: Run phpstan
+        run: composer phpstan

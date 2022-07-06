@@ -1,0 +1,60 @@
+{
+    "name": "vierge-noire/cakephp-fixture-factories",
+    "description": "CakePHP Dynamic Fixtures",
+    "type": "cakephp-plugin",
+    "keywords": ["cakephp", "tests", "dynamic", "fixtures"],
+    "authors": [
+        {
+            "name": "Nicolas Masson",
+            "email": "nicolas@b-projects.tech"
+        },
+        {
+            "name": "Juan Pablo Ramìrez",
+            "email": "pabloelcolombiano@gmail.com"
+        }
+    ],
+    "license": "MIT",
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=7.2",
+        "cakephp/orm": "^4.0",
+        "fakerphp/faker": "^1.15",
+        "vierge-noire/cakephp-test-suite-light": "^2.1"
+    },
+    "require-dev": {
+        "cakephp/bake": "^2.0",
+        "cakephp/cakephp-codesniffer": "^4.0",
+        "cakephp/migrations": "^3.0",
+        "josegonzalez/dotenv": "dev-master",
+        "phpstan/phpstan": "^0.12.48@dev",
+        "phpunit/phpunit": "^8.0",
+        "vierge-noire/cakephp-test-migrator": "^2.1",
+        "vimeo/psalm": "^4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "CakephpFixtureFactories\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "CakephpFixtureFactories\\Test\\": "tests",
+            "TestApp\\": "tests/TestApp/src",
+            "TestApp\\Test\\": "tests/TestApp/tests",
+            "TestPlugin\\": "tests/TestApp/plugins/TestPlugin/src",
+            "TestPlugin\\Test\\": "tests/TestApp/plugins/TestPlugin/tests"
+        }
+    },
+    "scripts": {
+        "mysql": "bash run_tests.sh Mysql",
+        "pgsql": "bash run_tests.sh Postgres",
+        "sqlite": "bash run_tests.sh Sqlite",
+        "phpstan": "vendor/bin/phpstan analyse --memory-limit=-1",
+        "psalm": "vendor/bin/psalm",
+        "cs-check": "vendor/bin/phpcs --colors -p -s --extensions=php src/ tests/TestApp/tests/Factory tests/TestApp/plugins/TestPlugin/tests/Factory",
+        "cs-fix": "vendor/bin/phpcbf --colors -p -s --extensions=php src/ tests/TestApp/tests/Factory"
+    },
+    "config": {
+        "sort-packages": true
+    }
+}

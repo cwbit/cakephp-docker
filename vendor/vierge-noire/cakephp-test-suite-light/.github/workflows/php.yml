@@ -1,0 +1,71 @@
+name: GitHub CI
+
+on:
+  push:
+    branches:
+      - '*'
+  pull_request:
+    branches:
+      - '*'
+  schedule:
+    - cron:  '0 0 * * 0'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version: ['7.2', '7.4']
+        db-type: [sqlite, mysql, pgsql]
+        composer-type: [lowest, stable, dev]
+        exclude:
+          # excludes composer lowest on mysql
+          - db-type: mysql
+            composer-type: lowest
+
+    name: PHP ${{ matrix.php-version }} & ${{ matrix.db-type }} & ${{ matrix.composer-type }}
+
+    services:
+      postgres:
+        image: postgres
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_DB: test_suite_light
+          POSTGRES_PASSWORD: root
+          POSTGRES_USER: root
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          extensions: mbstring, intl, apcu, pdo_${{ matrix.db-type }}
+          ini-values: apc.enable_cli = 1
+
+      - name: Update composer
+        run: composer self-update
+
+      - name: Validate composer.json
+        run: composer validate
+
+      - name: Install dependencies
+        run: |
+          if [[ ${{ matrix.composer-type }} == 'lowest' ]]; then
+            composer update --prefer-dist --no-progress --no-suggest --prefer-stable --prefer-lowest
+          elif [[ ${{ matrix.composer-type }} == 'stable' ]]; then
+            composer update --prefer-dist --no-progress --no-suggest --prefer-stable
+          else
+            composer update --prefer-dist --no-progress --no-suggest
+          fi
+
+      - name: Run tests
+        run: |
+          if [ ${{ matrix.db-type }} == 'mysql' ]; then
+            sudo service mysql start && mysql -h 127.0.0.1 -u root -proot -e 'CREATE DATABASE IF NOT EXISTS test_suite_light;';
+          fi
+          composer ${{ matrix.db-type }}

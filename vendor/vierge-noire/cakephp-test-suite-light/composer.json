@@ -1,0 +1,50 @@
+{
+  "name": "vierge-noire/cakephp-test-suite-light",
+  "description": "A test suite for CakePHP application based on Sql queries",
+  "type": "cakephp-plugin",
+  "keywords": ["cakephp", "test"],
+  "authors": [
+    {
+      "name": "Nicolas Masson",
+      "email": "nicolas@b-projects.tech"
+    },
+    {
+      "name": "Juan Pablo Ramìrez",
+      "email": "pabloelcolombiano@gmail.com"
+    }
+  ],
+  "license": "MIT",
+  "minimum-stability": "dev",
+  "require": {
+    "php": ">=7.2",
+    "cakephp/cakephp": "^4.3",
+    "ext-pdo": "*"
+  },
+  "require-dev": {
+    "cakephp/migrations": "^3.2",
+    "josegonzalez/dotenv": "dev-master",
+    "phpunit/phpunit": "^8.5 || ^9.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "CakephpTestSuiteLight\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "CakephpTestSuiteLight\\Test\\": "tests",
+      "TestApp\\": "tests/TestApp/src",
+      "TestApp\\Test\\": "tests/TestApp/tests"
+    }
+  },
+  "scripts": {
+    "mysql": "bash run_tests.sh Mysql",
+    "pgsql": "bash run_tests.sh Postgres",
+    "sqlite": "bash run_tests.sh Sqlite",
+    "phpstan": "./vendor/bin/phpstan analyse --memory-limit=-1",
+    "stan-setup": "cp composer.json composer.backup && composer require --dev phpstan/phpstan:0.12.88 && mv composer.backup composer.json"
+  },
+  "config": {
+    "sort-packages": true
+  }
+}

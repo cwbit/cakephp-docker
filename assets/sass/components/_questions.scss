@@ -1,0 +1,30 @@
+.question-color {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 45px;
+    width: 45px;
+
+    &.question-color-red {
+        background-color: #dc143c;
+    }
+    &.question-color-orange {
+        background-color: #ffaa00;
+    }
+
+    &.question-label-none {
+        color: black;
+    }
+    &.question-label-cc_red {
+        color: #ff9090;
+    }
+    &.question-label-sc_blue_stars {
+        color: #5397cd;
+    }
+    &.question-label-sc_red {
+        color: #ff9090;
+    }
+    &.question-label-sc {
+        color: black;
+    }
+}

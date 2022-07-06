@@ -1,0 +1,89 @@
+<?php
+declare(strict_types=1);
+
+namespace {{ namespace }};
+
+use CakephpFixtureFactories\Factory\BaseFactory as CakephpBaseFactory;
+use Faker\Generator;
+
+/**
+ * {{ factory }}
+ *
+ * @method {{ entityClass }} getEntity()
+ * @method {{ entityClass }}[] getEntities()
+ * @method {{ entityClass }}|{{ entityClass }}[] persist()
+ * @method static {{ entityClass }} get(mixed $primaryKey, array $options = [])
+ */
+class {{ factory }} extends CakephpBaseFactory
+{
+    /**
+     * Defines the Table Registry used to generate entities with
+     *
+     * @return string
+     */
+    protected function getRootTableRegistryName(): string
+    {
+        return '{{ rootTableRegistryName }}';
+    }
+
+    /**
+     * Defines the factory's default values. This is useful for
+     * not nullable fields. You may use methods of the present factory here too.
+     *
+     * @return void
+     */
+    protected function setDefaultTemplate(): void
+    {
+        $this->setDefaultData(function (Generator $faker) {
+            return [
+                // set the model's default values
+                // For example:
+                // 'name' => $faker->lastName
+            ];
+        });
+    }
+{% for association, associationFactory in toOne %}
+
+    /**
+     * @param array|callable|null|int $parameter
+     * @return {{ factory }}
+     */
+    public function with{{ association }}($parameter = null): {{ factory }}
+    {
+        return $this->with(
+            '{{ association }}',
+            \{{ associationFactory }}::make($parameter)
+        );
+    }
+{% endfor %}
+{% for association, associationFactory in oneToMany %}
+
+    /**
+     * @param array|callable|null|int $parameter
+     * @param int $n
+     * @return {{ factory }}
+     */
+    public function with{{ association }}($parameter = null, int $n = 1): {{ factory }}
+    {
+        return $this->with(
+            '{{ association }}',
+            \{{ associationFactory }}::make($parameter, $n)
+        );
+    }
+{% endfor %}
+{% for association, associationFactory in manyToMany %}
+
+    /**
+     * @param array|callable|null|int $parameter
+     * @param int $n
+     * @return {{ factory }}
+     */
+    public function with{{ association }}($parameter = null, int $n = 1): {{ factory }}
+    {
+        return $this->with(
+            '{{ association }}',
+            \{{ associationFactory }}::make($parameter, $n)->without('{{ modelName }}')
+        );
+    }
+{% endfor %}
+}

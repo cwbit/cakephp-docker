@@ -1,0 +1,30 @@
+{
+    "name": "salines/cakephp4-soft-delete",
+    "description": "SoftDelete plugin updated for CakePHP 4",
+    "keywords": ["cakephp", "cakephp 4", "plugin", "soft", "delete", "deletable"],
+    "homepage": "https://github.com/salines/cakephp4-soft-delete",
+    "type": "cakephp-plugin",
+    "license": "MIT",
+    "support": {
+        "source": "https://github.com/salines/cakephp4-soft-delete"
+    },
+    "require": {
+        "php": ">=7.2",
+        "cakephp/plugin-installer": "*",
+        "cakephp/cakephp": ">=4.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "SoftDelete\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "SoftDelete\\Test\\": "tests",
+            "Cake\\Test\\": "./vendor/cakephp/cakephp/tests"
+        }
+    }
+}

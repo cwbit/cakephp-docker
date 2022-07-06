@@ -1,0 +1,18 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+// Bootstrap icons
+@import "~bootstrap-icons/font/bootstrap-icons";
+
+@import 'helpers';
+@import 'layout';
+
+// Components
+@import 'components/navbar';
+@import 'components/questions';

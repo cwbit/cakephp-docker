@@ -1,0 +1,28 @@
+/* Text sizes */
+
+$textSizes: (
+  "xxxl": 3rem,
+  "xxl": 2.25rem,
+  "xl": 2rem,
+  "l": 1.5rem,
+  "lm": 1.25rem,
+  "m": 1rem,
+  "ms": 0.875rem,
+  "s": 0.75rem,
+);
+
+@each $size, $value in $textSizes {
+  .text-#{$size} {
+    font-size: $value;
+    line-height: $value * 1.25;
+  }
+}
+
+/* Sticky bottom */
+.sticky-bottom {
+    position: sticky;
+    bottom: 0;
+    text-align: right;
+    padding: 0.5rem;
+    background-color: rgba($color: #fff, $alpha: 0.8);
+}

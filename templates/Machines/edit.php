@@ -1,0 +1,29 @@
+<?php
+
+/**
+ * @var \App\View\AppView $this
+ * @var \App\Model\Entity\Machine $machine
+ * @var string[]|\Cake\Collection\CollectionInterface $sectors
+ */
+?>
+<h1><?= __('Modifier la machine') ?></h1>
+
+<?= $this->Form->create($machine) ?>
+<fieldset>
+    <?= $this->element('Machines/add_edit_form_fields') ?>
+</fieldset>
+<div class="sticky-bottom">
+    <?= $this->AuthLink->link(
+        __('Annuler'),
+        [
+            'action' => 'index'
+        ]
+    ) ?>
+    <?= $this->Form->button(
+        __('Valider'),
+        [
+            'class' => 'btn btn-lg btn-secondary'
+        ]
+    ) ?>
+</div>
+<?= $this->Form->end() ?>
