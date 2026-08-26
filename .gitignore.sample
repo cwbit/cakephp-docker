@@ -1,0 +1,52 @@
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+.directory
+
+# Docker / local environment
+docker/.env
+mysql/
+mysql-files/
+
+# CakePHP
+cakephp/config/app_local.php
+cakephp/config/.env
+cakephp/logs/*
+cakephp/tmp/*
+cakephp/vendor/*
+
+# Keep placeholder files in runtime directories
+!.gitkeep
+
+# PHPUnit
+.phpunit.cache
+tests.sqlite
+
+# Editors / IDEs
+*~
+*.swp
+*.swo
+*.sublime-*
+*.stTheme.cache
+*.tmlanguage.cache
+*.tmPreferences.cache
+.settings/
+.idea/
+nbproject/
+.vscode/
+.nova/
+
+# Sass
+.sass-cache/
+
+# Node
+node_modules/
+cakephp/node_modules/
+yarn-debug.log
+yarn-error.log
+npm-debug.log*

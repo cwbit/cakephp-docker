@@ -3,10 +3,10 @@ A Docker Compose setup for containerized CakePHP Applications
 
 This setup spools up the following containers
 
-* **mysql** (8.0)
-* **nginx**
-* **php-fpm** (php 8.5)
-* **mailhog** (smtp server for testing)
+* [mysql](#myapp-mysql---the-database-server) (8.0)
+* [nginx](#myapp-nginx---the-web-server)
+* [php-fpm](#myapp-php-fpm---the-php-processor) (php 8.5)
+* [mailhog](#myapp-mailhog---the-smtp-server) (smtp server for testing)
 
 The guide will walk you thru the following things
 
@@ -25,14 +25,15 @@ For those looking to get started in `60 sec` using just the defaults (which are 
 
 1. Download the ZIP file for this repo
 1. Create the following folder structure
- * Put your CakePHP app inside the `cakephp` folder (assumes you already have one; if not, look here)
+ * Put your CakePHP app inside the `cakephp` folder (assumes you already have one; if not, [look here](#creating-a-CakePHP-app))
  * and the files from this repo into the `docker` folder
 
 	```
-	    myapp
-	        docker
+	    myapp/
+	        .gitignore
+			docker/
 	            .. put the zip files in here ..
-	        cakephp
+	        cakephp/
 	            .. put your cake app in here ..
 	```
 
@@ -44,7 +45,7 @@ For those looking to get started in `60 sec` using just the defaults (which are 
     mkdir myapp/cakephp
 	```
 
-	And then to simultaneously download the latest master file, unpack it, stuff it into a folder named docker, and clone the `.env` file ... run this...
+	And then to simultaneously download the latest master file, unpack it, stuff it into a folder named docker, and clone the `.env` file and `.gitignore` file ... run this...
 
 	```bash
     cd myapp
@@ -52,9 +53,10 @@ For those looking to get started in `60 sec` using just the defaults (which are 
     unzip cakephp-docker.zip && \
     mv cakephp-docker-master docker && \
     cp docker/.env.sample docker/.env
+    cp .gitignore.sample .gitignore
     rm cakephp-docker.zip
 	```
-3. Move your cakephp app into the `cakephp` folder or if you're creating one from scratch skip to the next step
+3. Move your cakephp app into the `cakephp` folder or if you're creating one from scratch skip right to Step 4
 4. From commandline, `cd` into the `docker` directory and run `docker-compose up`
 
 	```bash
@@ -66,16 +68,16 @@ For those looking to get started in `60 sec` using just the defaults (which are 
 	Starting myapp-php-fpm
 	Starting myapp-nginx
 	Attaching to myapp-mailhog, myapp-mysql, myapp-nginx, myapp-php-fpm
-  	myapp-mailhog  | 2024/06/12 15:59:39 Using in-memory storage
-  	myapp-mailhog  | 2024/06/12 15:59:39 [SMTP] Binding to address: 0.0.0.0:1025
-  	myapp-mailhog  | 2024/06/12 15:59:39 Serving under http://0.0.0.0:8025/
+  	myapp-mailhog  | 2026/08/26 15:59:39 Using in-memory storage
+  	myapp-mailhog  | 2026/08/26 15:59:39 [SMTP] Binding to address: 0.0.0.0:1025
+  	myapp-mailhog  | 2026/08/26 15:59:39 Serving under http://0.0.0.0:8025/
   	myapp-mailhog  | [HTTP] Binding to address: 0.0.0.0:8025
   	myapp-mailhog  | Creating API v1 with WebPath:
   	myapp-mailhog  | Creating API v2 with WebPath:
-  	myapp-mysql    | 2024-06-12 15:59:39+00:00 [Note] [Entrypoint]: Entrypoint script for MySQL Server 8.0.27-1debian10 started.
-  	myapp-php-fpm  | [12-Jun-2024 15:59:39] NOTICE: fpm is running, pid 1
-  	myapp-php-fpm  | [12-Jun-2024 15:59:39] NOTICE: ready to handle connections
-  	myapp-php-fpm  | [12-Jun-2024 15:59:39] NOTICE: systemd monitor interval set to 10000ms
+  	myapp-mysql    | 2026-08-26 15:59:39+00:00 [Note] [Entrypoint]: Entrypoint script for MySQL Server 8.0.27-1debian10 started.
+  	myapp-php-fpm  | [26-Aug-2026 15:59:39] NOTICE: fpm is running, pid 1
+  	myapp-php-fpm  | [26-Aug-2026 15:59:39] NOTICE: ready to handle connections
+  	myapp-php-fpm  | [26-Aug-2026 15:59:39] NOTICE: systemd monitor interval set to 10000ms
   	myapp-nginx    | /docker-entrypoint.sh: /docker-entrypoint.d/ is not empty, will attempt to perform configuration
   	myapp-nginx    | /docker-entrypoint.sh: Looking for shell scripts in /docker-entrypoint.d/
   	myapp-nginx    | /docker-entrypoint.sh: Launching /docker-entrypoint.d/10-listen-on-ipv6-by-default.sh
@@ -96,6 +98,7 @@ Here is an example of what my typical setup looks like
 
 ```
 	myapp
+		.gitignore
 		cakephp
 			src
 			config
@@ -162,9 +165,7 @@ password : myapp
 database : myapp
 ```
 
-You can access your MySQL database (with your favorite GUI app) on
-
-`localhost:8106`
+You can access your MySQL database (with your favorite GUI app) on `localhost:8106`
 
 Your `cakephp/config/app_local.php` file should be set to the following (it connects through the docker link)
 
@@ -218,7 +219,7 @@ This container runs `php` (and it's extensions) needed for your CakePHP app
 
 It automatically includes the following extensions
 
-* `php8.5-intl` (required for CakePHP 4.0+)
+* `php8.5-intl` (required for CakePHP 5.0+)
 * `php8.5-mbstring` (included in the base image)
 * `php8.5-sqlite3` (required for DebugKit)
 * `php8.5-mysql`
