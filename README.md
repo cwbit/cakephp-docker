@@ -53,7 +53,7 @@ For those looking to get started in `60 sec` using just the defaults (which are 
     unzip cakephp-docker.zip && \
     mv cakephp-docker-master docker && \
     cp docker/.env.sample docker/.env
-    cp .gitignore.sample .gitignore
+    cp docker/.gitignore.sample .gitignore
     rm cakephp-docker.zip
 	```
 3. Move your cakephp app into the `cakephp` folder or if you're creating one from scratch skip right to Step 4
