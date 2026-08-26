@@ -44,7 +44,7 @@ services:
     working_dir: /var/www/myapp
     volumes:
       - ../cakephp:/var/www/myapp
-      - ./php-fpm/php-ini-overrides.ini:/etc/php/8.1/fpm/conf.d/99-overrides.ini
+      - ./php-fpm/php-ini-overrides.ini:/etc/php/8.5/fpm/conf.d/99-overrides.ini
     links:
       - myapp-mailhog
       - myapp-mysql
